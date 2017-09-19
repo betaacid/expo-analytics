@@ -8,13 +8,15 @@ class Analytics {
     proxy = null
     queue = []
 
-    constructor(propertyId){
+    constructor(propertyId, appId, appVersion){
         this.propertyId = propertyId;
+        this.appId = appId;
+        this.appVersion = appVersion;
 
         Constants.getWebViewUserAgentAsync()
         .then(userAgent => {
             this.userAgent = userAgent;
-            this.proxy = new GoogleAnalyticsProxy(this.propertyId, Constants.deviceId, userAgent);
+            this.proxy = new GoogleAnalyticsProxy(this.propertyId, Constants.deviceId, userAgent, this.appId, this.appVersion);
             // send anything that was added while we were getting the user agent
             this.flush();
         });
@@ -34,7 +36,8 @@ class Analytics {
         if(this.proxy){
             while(this.queue.length){
                 const hit = this.queue.pop();
-                this.proxy.send(hit);
+                this.proxy.send(hit)
+                .then(() => hit.sent = true);
             }
         }
     }

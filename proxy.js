@@ -1,9 +1,11 @@
 
 export default class GoogleAnalyticsProxy {
-    constructor(gaPropertyId, clientId, userAgent) {
+    constructor(gaPropertyId, clientId, userAgent, appId, appVersion) {
         this.propertyId = gaPropertyId;
-        this.userAgent = userAgent;
         this.clientId = clientId;
+        this.userAgent = userAgent;
+        this.appId = appId;
+        this.appVersion = appVersion;
         this.customDimensions = [];
     }
 
@@ -25,7 +27,7 @@ export default class GoogleAnalyticsProxy {
 
         const customDimensions = this.customDimensions.map(cd => `cd${cd.index}=${cd.value}`).join('&');
 
-        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${customDimensions}&z=${Math.round(Math.random() * 1e8)}`;
+        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&aid=${this.appId}&av=${this.appVersion}&cid=${this.clientId}&${hit.toQueryString()}&${customDimensions}&z=${Math.round(Math.random() * 1e8)}`;
 
         let options = {
             method: 'get',

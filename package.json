@@ -1,6 +1,6 @@
 {
   "name": "expo-analytics",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Google Analytics integration for use with React Native apps built on Expo.",
   "main": "index.js",
   "scripts": {

@@ -22,6 +22,14 @@ const analyticsProxy = new Analytics('UA-XXXXXX-Y');
 analyticsProxy.hit(new PageHit('Home'));
 ```
 
+You can also optionally include an ID and a version for your app.  These will get passed through to Google Analytics with each hit or event.
+
+```
+import { Analytics } from 'expo-analytics';
+
+const analyticsProxy = new Analytics('UA-XXXXXX-Y', 'com.mycompany.myapp', '1.0.0');
+```
+
 You can also send custom events by constructing a new `Event` instance and passing it to the `event` function.  Events have four parameters. 
 
 * Event Category
@@ -41,6 +49,8 @@ analyticsProxy.event(new Event('Video', 'Play', 'The Big Lebowski', 123));
 [Learn more](https://support.google.com/analytics/answer/1033068?hl=en) about custom events.
 
 ## Release History
+
+* 1.0.3 Added support for app ID and version
 
 * 1.0.2 Added support for custom events
 

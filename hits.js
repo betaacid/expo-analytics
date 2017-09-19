@@ -28,20 +28,29 @@ export class Serializable {
     }
 }
 
+class Hit extends Serializable {
+    
+    sent = false
 
-export class PageHit extends Serializable {
+    constructor(props){
+        super(props);
+    }
+}
+
+
+export class PageHit extends Hit {
     constructor(screenName) {
         super({ dp: screenName, t: 'pageview' });
     }
 }
 
-export class ScreenHit extends Serializable {
+export class ScreenHit extends Hit {
     constructor(screenName) {
         super({ dp: screenName, t: 'screenview' });
     }
 }
 
-export class Event extends Serializable {
+export class Event extends Hit {
     constructor(category, action, label, value) {
         super({ ec: category, ea: action, el: label, ev: value, t: 'event' });
     }
