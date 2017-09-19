@@ -2,11 +2,11 @@ import { Platform } from 'react-native';
 import { Constants } from 'expo';
 
 import GoogleAnalyticsProxy from './proxy';
-import { ScreenHit, PageHit } from './hit';
+import { ScreenHit, PageHit, Event } from './hits';
 
 class Analytics {
     proxy = null
-    hitQueue = []
+    queue = []
 
     constructor(propertyId){
         this.propertyId = propertyId;
@@ -21,18 +21,23 @@ class Analytics {
     }
 
     hit(hit){
-        this.hitQueue.push(hit);
+        this.queue.push(hit);
+        this.flush();
+    }
+
+    event(event){
+        this.queue.push(event);
         this.flush();
     }
 
     flush(){
         if(this.proxy){
-            while(this.hitQueue.length){
-                const hit = this.hitQueue.pop();
+            while(this.queue.length){
+                const hit = this.queue.pop();
                 this.proxy.send(hit);
             }
         }
     }
 }
 
-export { ScreenHit, PageHit, Analytics };
+export { ScreenHit, PageHit, Event, Analytics };

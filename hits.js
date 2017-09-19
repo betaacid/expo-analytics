@@ -31,12 +31,18 @@ export class Serializable {
 
 export class PageHit extends Serializable {
     constructor(screenName) {
-        super({ dp: screenName, t: 'pageview' })
+        super({ dp: screenName, t: 'pageview' });
     }
 }
 
 export class ScreenHit extends Serializable {
     constructor(screenName) {
-        super({ dp: screenName, t: 'screenview' })
+        super({ dp: screenName, t: 'screenview' });
+    }
+}
+
+export class Event extends Serializable {
+    constructor(category, action, label, value) {
+        super({ ec: category, ea: action, el: label, ev: value, t: 'event' });
     }
 }
