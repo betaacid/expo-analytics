@@ -1,11 +1,18 @@
+import { Dimensions } from 'react-native';
+import { Serializable } from './hits';
+
+
+let defaultOptions = {
+    debug: false
+};
 
 export default class GoogleAnalyticsProxy {
-    constructor(gaPropertyId, clientId, userAgent, appId, appVersion) {
+    constructor(gaPropertyId, clientId, userAgent, parameters = {}, options = defaultOptions) {
         this.propertyId = gaPropertyId;
         this.clientId = clientId;
         this.userAgent = userAgent;
-        this.appId = appId;
-        this.appVersion = appVersion;
+        this.parameters = parameters;
+        this.options = options;
         this.customDimensions = [];
     }
 
@@ -22,18 +29,29 @@ export default class GoogleAnalyticsProxy {
         * &cid= anonymous client ID (optional if uid is given)
         * &uid= user id (optional if cid is given)
         * &ua= user agent override
+        * &an= app name (required for any of the other app parameters to work)
+        * &aid= app id
+        * &av= app version
+        * &sr= screen resolution
+        * &cd{n}= custom dimensions
         * &z= cache buster (prevent browsers from caching GET requests -- should always be last)
         */
 
         const customDimensions = this.customDimensions.map(cd => `cd${cd.index}=${cd.value}`).join('&');
 
-        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&aid=${this.appId}&av=${this.appVersion}&cid=${this.clientId}&${hit.toQueryString()}&${customDimensions}&z=${Math.round(Math.random() * 1e8)}`;
+        const params = new Serializable(this.parameters).toQueryString();
+
+        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${params}&${customDimensions}&z=${Math.round(Math.random() * 1e8)}`;
 
         let options = {
             method: 'get',
             headers: {
                 'User-Agent': this.userAgent
             }
+        }
+
+        if(this.options.debug){
+            console.log(`[expo-analytics] Sending GET request to ${url}`);
         }
 
         return fetch(url, options);
