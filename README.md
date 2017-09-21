@@ -66,6 +66,8 @@ analyticsProxy.hit(new PageHit('IsItWorking'));
 
 ## Release History
 
+* 1.0.5 Fixing issue with duplicate dependencies causing installation problems.
+
 * 1.0.4 Automatically pull screen resolution from React Native dimensions.  Resolve app name, app ID, app version from Expo manifest.  App name is now required.  Added debug option.
 
 * 1.0.3 Added support for app ID and version
