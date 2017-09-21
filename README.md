@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/expo-analytics.png)](https://badge.fury.io/js/expo-analytics)
+
 Expo Analytics
 =========
 
