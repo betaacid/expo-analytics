@@ -46,7 +46,7 @@ export class PageHit extends Hit {
 
 export class ScreenHit extends Hit {
     constructor(screenName) {
-        super({ dp: screenName, t: 'screenview' });
+        super({ cd: screenName, t: 'screenview' });
     }
 }
 
