@@ -37,17 +37,13 @@ export default class Analytics {
     hit(hit){
         // send only after the user agent is saved
         return this.promiseGetWebViewUserAgentAsync
-            .then(() => {
-                this.send(hit);
-            });
+            .then(() => this.send(hit));
     }
 
     event(event){
         // send only after the user agent is saved
         return this.promiseGetWebViewUserAgentAsync
-            .then(() => {
-                this.send(event);
-            });
+            .then(() => this.send(event));
     }
 
     addCustomDimension(index, value){
