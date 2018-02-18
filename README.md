@@ -25,7 +25,9 @@ Sending page hits or screen hits is done by constructing a new `PageHit` or `Scr
 import { Analytics, PageHit } from 'expo-analytics';
 
 const analytics = new Analytics('UA-XXXXXX-Y');
-analytics.hit(new PageHit('Home'));
+analytics.hit(new PageHit('Home'))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
 ```
 
 ##### Events
@@ -43,7 +45,9 @@ These parameters are passed to the `Event` constructor in that order.
 import { Analytics, Event } from 'expo-analytics';
 
 const analytics = new Analytics('UA-XXXXXX-Y');
-analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123));
+analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
 ```
 
 [Learn more](https://support.google.com/analytics/answer/1033068?hl=en) about custom events.
@@ -58,7 +62,9 @@ import { Analytics, Event } from 'expo-analytics';
 const analytics = new Analytics('UA-XXXXXX-Y');
 analytics.addCustomDimension(1, 'TrialAccount');
 analytics.addCustomDimension(2, 'Comedy');
-analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123));
+analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
 ```
 
 You can remove custom dimensions as needed.
@@ -87,7 +93,9 @@ The Google Analytics API is a bit particular.  If you're not seeing Real Time hi
 import { Analytics, PageHit } from 'expo-analytics';
 
 const analytics = new Analytics('UA-XXXXXX-Y', null, { debug: true });
-analytics.hit(new PageHit('IsItWorking'));
+analytics.hit(new PageHit('IsItWorking'))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
 ``` 
 
 ## Release History
