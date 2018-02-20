@@ -8,8 +8,6 @@ const { width, height } = Dimensions.get('window');
 let defaultOptions = { debug: false };
 
 export default class Analytics {
-    ready = false
-    queue = []
     customDimensions = []
 
     constructor(propertyId, additionalParameters = {}, options = defaultOptions){
@@ -17,38 +15,35 @@ export default class Analytics {
         this.options = options;
         this.clientId = Constants.deviceId;
         this.options = options;
+        this.promiseGetWebViewUserAgentAsync = Constants.getWebViewUserAgentAsync()
+            .then(userAgent => {
+                this.userAgent = userAgent;
 
-        Constants.getWebViewUserAgentAsync()
-        .then(userAgent => {
-            this.userAgent = userAgent;
-            
-            this.parameters = { 
-                an: Constants.manifest.name, 
-                aid: Constants.manifest.slug, 
-                av: Constants.manifest.version,
-                sr: `${width}x${height}`,
-                ...additionalParameters
-            };
+                this.parameters = { 
+                    an: Constants.manifest.name, 
+                    aid: Constants.manifest.slug, 
+                    av: Constants.manifest.version,
+                    sr: `${width}x${height}`,
+                    ...additionalParameters
+                };
 
-            if(this.options.debug){
-                console.log(`[expo-analytics] UserAgent=${userAgent}`);
-                console.log(`[expo-analytics] Additional parameters=`, this.parameters);
-            }
-
-            // send anything that was added while we were getting the user agent
-            this.ready = true;
-            this.flush();
-        });
+                if(this.options.debug){
+                    console.log(`[expo-analytics] UserAgent=${userAgent}`);
+                    console.log(`[expo-analytics] Additional parameters=`, this.parameters);
+                }
+            });
     }
 
     hit(hit){
-        this.queue.push(hit);
-        this.flush();
+        // send only after the user agent is saved
+        return this.promiseGetWebViewUserAgentAsync
+            .then(() => this.send(hit));
     }
 
     event(event){
-        this.queue.push(event);
-        this.flush();
+        // send only after the user agent is saved
+        return this.promiseGetWebViewUserAgentAsync
+            .then(() => this.send(event));
     }
 
     addCustomDimension(index, value){
@@ -57,16 +52,6 @@ export default class Analytics {
 
     removeCustomDimension(index){
         delete this.customDimensions[index];
-    }
-
-    flush(){
-        if(this.ready){
-            while(this.queue.length){
-                const hit = this.queue.pop();
-                this.send(hit)
-                .then(() => hit.sent = true);
-            }
-        }
     }
 
     send(hit) {
