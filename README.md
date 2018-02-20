@@ -100,6 +100,8 @@ analytics.hit(new PageHit('IsItWorking'))
 
 ## Release History
 
+* 1.0.7 Promisification.  Thanks, @dylancompanjen!
+
 * 1.0.6 Fix for `ScreenHit` parameter name (thanks @davisml!).  Support for custom dimensions.
 
 * 1.0.5 Fixing issue with duplicate dependencies causing installation problems.
