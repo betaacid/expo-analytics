@@ -14,7 +14,7 @@ export default class Analytics {
         this.propertyId = propertyId;
         this.options = options;
         this.clientId = Constants.deviceId;
-        this.options = options;
+
         this.promiseGetWebViewUserAgentAsync = Constants.getWebViewUserAgentAsync()
             .then(userAgent => {
                 this.userAgent = userAgent;
