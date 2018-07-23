@@ -46,6 +46,10 @@ export default class Analytics {
             .then(() => this.send(event));
     }
 
+    addParameter(name, value){
+        this.parameters[name] = value;
+    }
+
     addCustomDimension(index, value){
         this.customDimensions[index] = value;
     }
