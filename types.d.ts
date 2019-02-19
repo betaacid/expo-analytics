@@ -2,8 +2,8 @@ export class Analytics {
   constructor(trackingId: string, parameters?: MeasurementParamter, options?: Options);
   hit(hitObject: PageHit | ScreenHit): Promise<void>;
   event(event: Event): Promise<void>;
-  addCustomDimension(dimensionIndex: number, tag: string);
-  removeCustomDimension(dimensionIndex: number);
+  addCustomDimension(dimensionIndex: number, tag: string): void;
+  removeCustomDimension(dimensionIndex: number): void;
 }
 
 export interface MeasurementParamter {
