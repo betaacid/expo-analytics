@@ -100,6 +100,8 @@ analytics.hit(new PageHit('IsItWorking'))
 
 ## Release History
 
+* 1.0.9 Support for Expo 0.33.  Thanks, @rossb89.
+
 * 1.0.8 Adding TypeScript definitions. 
 
 * 1.0.7 Promisification.  Thanks, @dylancompanjen!
