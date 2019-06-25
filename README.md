@@ -84,6 +84,49 @@ import { Analytics } from 'expo-analytics';
 const analytics = new Analytics('UA-XXXXXX-Y', { uid: '999', dr: 'github.com', cn: 'get_more_views' });
 ```
 
+##### Ecommerce tracking 
+###### Transaction hit type
+You can also send purchase by constructing a new `Transaction` instance and passing it to the `transaction` function.  Transaction have five parameters. 
+
+* id (Required, string)
+* affiliation (Optional, string)
+* revenue (Optional, currency, but recommended)
+* shipping (Optional, currency)
+* tax (Optional, currency)
+
+These parameters are passed to the `Transaction` constructor in that order.
+
+```
+import { Analytics, Transaction } from 'expo-analytics';
+
+const analytics = new Analytics('UA-XXXXXX-Y');
+
+ analytics.hit(new Transaction('1235', 'Store', 38.43, 1.29, 5))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
+```
+
+###### Item hit type
+You can also send along the purchase the products that were purchased in the transaction, constructing a new `AddItem` instance and passing it to the `AddItem` function. 'AddItem' have six parameters. 
+
+* id (The transaction id, Required, string)
+* name (Required, string)
+* price (Optional, currency, but recommended)
+* quantity (Optional, integer)
+* sku (Optional, string, but recommended)
+* category (Optional, string, but recommended)
+
+These parameters are passed to the `AddItem` constructor in that order.
+
+```
+import { Analytics, AddItem } from 'expo-analytics';
+
+const analytics = new Analytics('UA-XXXXXX-Y');
+
+ analytics.hit(new AddItem('1235', 'T-SHIRT', 11.99, 1, 'DD44', 'Clothes'))
+  .then(() => console.log("success"))
+  .catch(e => console.log(e.message));
+```
 
 ## Debugging
 
