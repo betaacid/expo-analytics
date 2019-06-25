@@ -1,4 +1,4 @@
-import { ScreenHit, PageHit, Event } from './hits';
+import { ScreenHit, PageHit, Event, Transaction } from './hits';
 import Analytics from './analytics';
 
-export { ScreenHit, PageHit, Event, Analytics };
+export { ScreenHit, PageHit, Event, Transaction, Analytics };

@@ -55,3 +55,9 @@ export class Event extends Hit {
         super({ ec: category, ea: action, el: label, ev: value, t: 'event' });
     }
 }
+
+export class Transaction extends Hit {
+    constructor(id, affiliation, revenue, shipping, tax) {
+        super({ ti: id, ta: affiliation, tr: revenue, tt: tax, t: 'transaction' });
+    }
+}
