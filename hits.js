@@ -61,3 +61,9 @@ export class Transaction extends Hit {
         super({ ti: id, ta: affiliation, tr: revenue, tt: tax, t: 'transaction' });
     }
 }
+
+export class AddItem extends Hit {
+    constructor(id, name, price, quantity, sku, category) {
+        super({ti: id, in: name, ip: price, iq: quantity, ic: sku, iv: category, t: 'item' });
+    }
+}
