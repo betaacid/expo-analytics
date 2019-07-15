@@ -13,6 +13,10 @@ Please create issues for any bugs you find or features you would like added.
 npm install expo-analytics --save
 ```
 
+## Breaking Changes in Expo SDK 33
+
+It seems that Expo introduced some breaking changes in SDK 33, so if you are using a version of Expo below 33 please pin your `package.json` to version `1.0.8` of this package.  `expo-analytics` `1.0.9+` is only compatable with Expo SDK 33+.
+
 ## Usage
 
 Your React Native app's screen resolution, app name, app ID, app version and multiple other parameters will be automatically resolved and sent with each hit or event.
@@ -154,6 +158,8 @@ analytics.hit(new PageHit('IsItWorking'))
 ``` 
 
 ## Release History
+
+* 1.0.11 Support for e-commerce tracking.  Thanks, @lucianfialhobp.
 
 * 1.0.10 Support for custom metrics.
 
