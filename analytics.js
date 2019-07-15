@@ -9,6 +9,7 @@ let defaultOptions = { debug: false };
 
 export default class Analytics {
     customDimensions = []
+    customMetrics = []
 
     constructor(propertyId, additionalParameters = {}, options = defaultOptions){
         this.propertyId = propertyId;
@@ -58,6 +59,14 @@ export default class Analytics {
         delete this.customDimensions[index];
     }
 
+    addCustomMetric(index, value) {
+        this.customMetrics[index] = value;
+      }
+
+    removeCustomMetric(index) {
+        delete this.customMetrics[index];
+    }
+
     send(hit) {
         /* format: https://www.google-analytics.com/collect? +
         * &tid= GA property ID (required)
@@ -73,14 +82,16 @@ export default class Analytics {
         * &av= app version
         * &sr= screen resolution
         * &cd{n}= custom dimensions
+        * &cm{n}= custom metrics
         * &z= cache buster (prevent browsers from caching GET requests -- should always be last)
         */
 
         const customDimensions = this.customDimensions.map((value, index) => `cd${index}=${value}`).join('&');
+        const customMetrics = this.customMetrics.map((value, index) => `cm${index}=${value}`).join('&');
 
         const params = new Serializable(this.parameters).toQueryString();
 
-        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${params}&${customDimensions}&z=${Math.round(Math.random() * 1e8)}`;
+        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${params}&${customDimensions}&${customMetrics}&z=${Math.round(Math.random() * 1e8)}`;
 
         let options = {
             method: 'get',

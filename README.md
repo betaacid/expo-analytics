@@ -73,6 +73,18 @@ You can remove custom dimensions as needed.
 analytics.removeCustomDimension(1);
 ```
 
+##### Custom Metrics
+
+[Custom Metrics](https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cm_) work the same way with just a slightly different call.
+
+```
+import { Analytics, Event } from 'expo-analytics';
+
+const analytics = new Analytics('UA-XXXXXX-Y');
+analytics.addCustomMetric(1, 15);
+analytics.removeCustomMetric(1);
+```
+
 ##### Additional Parameters
 
 You can also optionally include any additional [supported parameters](https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters) you would like.
@@ -99,6 +111,8 @@ analytics.hit(new PageHit('IsItWorking'))
 ``` 
 
 ## Release History
+
+* 1.0.10 Support for custom metrics.
 
 * 1.0.9 Support for Expo 0.33.  Thanks, @rossb89.
 

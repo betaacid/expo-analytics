@@ -3,7 +3,9 @@ export class Analytics {
   hit(hitObject: PageHit | ScreenHit): Promise<void>;
   event(event: Event): Promise<void>;
   addCustomDimension(dimensionIndex: number, tag: string): void;
+  addCustomMetric(metricIndex: number, tag: number): void;
   removeCustomDimension(dimensionIndex: number): void;
+  removeCustomMetric(metricIndex: number): void;
 }
 
 export interface MeasurementParamter {
