@@ -84,6 +84,20 @@ export default class Analytics {
         * &cd{n}= custom dimensions
         * &cm{n}= custom metrics
         * &z= cache buster (prevent browsers from caching GET requests -- should always be last)
+        * 
+        * Ecommerce track support (transaction)
+        * &ti= transaction The transaction ID. (e.g. 1234)
+        * &ta= The store or affiliation from which this transaction occurred (e.g. Acme Clothing).
+        * &tr= Specifies the total revenue or grand total associated with the transaction (e.g. 11.99). This value may include shipping, tax costs, or other adjustments to total revenue that you want to include as part of your revenue calculations.
+        * &tt= Specifies the total shipping cost of the transaction. (e.g. 5)
+        * 
+        * Ecommerce track support (addItem)
+        * &ti= transaction The transaction ID. (e.g. 1234)
+        * &in= The item name. (e.g. Fluffy Pink Bunnies)
+        * &ip= The individual, unit, price for each item. (e.g. 11.99)
+        * &iq= The number of units purchased in the transaction. If a non-integer value is passed into this field (e.g. 1.5), it will be rounded to the closest integer value.
+        * &ic= TSpecifies the SKU or item code. (e.g. SKU47)
+        * &iv= The category to which the item belongs (e.g. Party Toys)
         */
 
         const customDimensions = this.customDimensions.map((value, index) => `cd${index}=${value}`).join('&');

@@ -55,3 +55,15 @@ export class Event extends Hit {
         super({ ec: category, ea: action, el: label, ev: value, t: 'event' });
     }
 }
+
+export class Transaction extends Hit {
+    constructor(id, affiliation, revenue, shipping, tax) {
+        super({ ti: id, ta: affiliation, tr: revenue, tt: tax, t: 'transaction' });
+    }
+}
+
+export class AddItem extends Hit {
+    constructor(id, name, price, quantity, sku, category) {
+        super({ti: id, in: name, ip: price, iq: quantity, ic: sku, iv: category, t: 'item' });
+    }
+}
