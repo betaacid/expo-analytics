@@ -7,6 +7,23 @@ const { width, height } = Dimensions.get('window');
 
 let defaultOptions = { debug: false };
 
+let webViewUserAgent = null;
+const getWebViewUserAgent = async (options) => {
+    return new Promise((resolve) => {
+        if (options.userAgent) {
+            webViewUserAgent = options.userAgent;
+            return resolve(options.userAgent);
+        }
+        if (webViewUserAgent) return resolve(webViewUserAgent);
+        Constants.getWebiewUserAgentAsync()
+          .then(userAgent => {
+              webViewUserAgent = userAgent;
+              resolve(userAgent);
+          })
+          .catch(() => resolve('unknown user agent'))
+    });
+}
+
 export default class Analytics {
     customDimensions = []
     customMetrics = []
@@ -16,7 +33,7 @@ export default class Analytics {
         this.options = options;
         this.clientId = Constants.deviceId;
 
-        this.promiseGetWebViewUserAgentAsync = Constants.getWebViewUserAgentAsync()
+        this.promiseGetWebViewUserAgentAsync = getWebViewUserAgent(options)
             .then(userAgent => {
                 this.userAgent = userAgent;
 
