@@ -39,8 +39,8 @@ class Hit extends Serializable {
 
 
 export class PageHit extends Hit {
-    constructor(screenName) {
-        super({ dp: screenName, t: 'pageview' });
+    constructor(screenName, screenTitle) {
+        super({ dt: screenName, dp: screenTitle || screenName, t: 'pageview' });
     }
 }
 
