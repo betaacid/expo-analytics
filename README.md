@@ -160,6 +160,14 @@ analytics.hit(new PageHit('IsItWorking'))
   .catch(e => console.log(e.message));
 ``` 
 
+## More Options
+
+You might want to use your own static userAgent http header instead of the default WebView header.
+```
+const analytics = new Analytics('UA-XXXXXX-Y', null, { userAgent: 'Custom UserAgent' });
+```
+
+
 ## Release History
 
 * 1.0.11 Support for e-commerce tracking.  Thanks, @lucianfialhobp.
