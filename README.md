@@ -13,6 +13,9 @@ Please create issues for any bugs you find or features you would like added.
 npm install expo-analytics --save
 ```
 
+## Support for web + app projects
+Selecting this option when creating a google analytics property the tracking ID it is not prefixed with `'UA-'` but with `G-` resulting in views not showing up. For now use the regular GA property pending resolving issue [#48](https://github.com/ryanvanderpol/expo-analytics/issues/48)
+
 ## Breaking Changes in Expo SDK 33
 
 It seems that Expo introduced some breaking changes in SDK 33, so if you are using a version of Expo below 33 please pin your `package.json` to version `1.0.8` of this package.  `expo-analytics` `1.0.9+` is only compatable with Expo SDK 33+.
