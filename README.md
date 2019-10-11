@@ -170,6 +170,8 @@ const analytics = new Analytics('UA-XXXXXX-Y', null, { userAgent: 'Custom UserAg
 
 ## Release History
 
+* 1.0.12 User agent caching (thanks, @musemind!) and screenTitle on PageHits (thanks, @YassineElbouchaibi)
+
 * 1.0.11 Support for e-commerce tracking.  Thanks, @lucianfialhobp.
 
 * 1.0.10 Support for custom metrics.
