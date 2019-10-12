@@ -15,7 +15,7 @@ const getWebViewUserAgent = async (options) => {
             return resolve(options.userAgent);
         }
         if (webViewUserAgent) return resolve(webViewUserAgent);
-        Constants.getWebiewUserAgentAsync()
+        Constants.getWebViewUserAgentAsync()
           .then(userAgent => {
               webViewUserAgent = userAgent;
               resolve(userAgent);
