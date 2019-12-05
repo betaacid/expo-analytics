@@ -126,9 +126,10 @@ export default class Analytics {
 
         let options = {
             method: 'get',
-            headers: {
-                'User-Agent': this.userAgent
-            }
+        }
+
+        if (Platform.OS !== 'web') {
+            headers['User-Agent'] = this.userAgent;
         }
 
         if(this.options.debug){
