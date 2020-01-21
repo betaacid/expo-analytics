@@ -32,19 +32,17 @@ export default class Analytics {
         this.propertyId = propertyId;
         this.options = options;
         this.clientId = Constants.deviceId;
+        this.parameters = {
+            an: Constants.manifest.name,
+            aid: Constants.manifest.slug,
+            av: Constants.manifest.version,
+            sr: `${width}x${height}`,
+            ...additionalParameters
+        };
 
         this.promiseGetWebViewUserAgentAsync = getWebViewUserAgent(options)
             .then(userAgent => {
                 this.userAgent = userAgent;
-
-                this.parameters = { 
-                    an: Constants.manifest.name, 
-                    aid: Constants.manifest.slug, 
-                    av: Constants.manifest.version,
-                    sr: `${width}x${height}`,
-                    ...additionalParameters
-                };
-
                 if(this.options.debug){
                     console.log(`[expo-analytics] UserAgent=${userAgent}`);
                     console.log(`[expo-analytics] Additional parameters=`, this.parameters);
