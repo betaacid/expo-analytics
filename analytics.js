@@ -123,23 +123,16 @@ export default class Analytics {
         const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${params}&${customDimensions}&${customMetrics}&z=${Math.round(Math.random() * 1e8)}`;
 
         //Keep original options if on mobile
-        let options;
-        if (Platform.OS == "web") {
-        options = {
-            method: "get",
+        let options = {
+            method: 'get',
             headers: {
-            "User-Agent": this.userAgent,
-            },
+                'User-Agent': this.userAgent,
+            }
+        };
+
+        if (Platform.OS === 'web') {
             //Request opaque resources to avoid preflight CORS error in Safari
-            mode: "no-cors",
-        };
-        } else {
-        options = {
-            method: "get",
-            headers: {
-            "User-Agent": this.userAgent,
-            },
-        };
+            options.mode = 'no-cors';
         }
 
         if(this.options.debug){
