@@ -23,7 +23,7 @@ export interface Options {
 }
 
 export class PageHit {
-  constructor(pageName: string);
+  constructor(pageName: string, screenTitle: string);
 }
 
 export class ScreenHit {
