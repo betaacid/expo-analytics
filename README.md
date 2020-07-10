@@ -170,6 +170,8 @@ const analytics = new Analytics('UA-XXXXXX-Y', null, { userAgent: 'Custom UserAg
 
 ## Release History
 
+* 1.0.16 Using installationId instead of deviceId. Thanks @AlexKvazos! 👨🏻‍🎤
+
 * 1.0.15 Fix for CORS issue in Safari when using with `expo-web`. Thanks @spencerlevitt and @chunghe!
 
 * 1.0.14 Fixing a possible race condition. Thanks, @giautm!
