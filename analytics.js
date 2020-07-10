@@ -31,7 +31,7 @@ export default class Analytics {
     constructor(propertyId, additionalParameters = {}, options = defaultOptions){
         this.propertyId = propertyId;
         this.options = options;
-        this.clientId = Constants.deviceId;
+        this.clientId = Constants.installationId;
         this.parameters = {
             an: Constants.manifest.name,
             aid: Constants.manifest.slug,
@@ -99,13 +99,13 @@ export default class Analytics {
         * &cd{n}= custom dimensions
         * &cm{n}= custom metrics
         * &z= cache buster (prevent browsers from caching GET requests -- should always be last)
-        * 
+        *
         * Ecommerce track support (transaction)
         * &ti= transaction The transaction ID. (e.g. 1234)
         * &ta= The store or affiliation from which this transaction occurred (e.g. Acme Clothing).
         * &tr= Specifies the total revenue or grand total associated with the transaction (e.g. 11.99). This value may include shipping, tax costs, or other adjustments to total revenue that you want to include as part of your revenue calculations.
         * &tt= Specifies the total shipping cost of the transaction. (e.g. 5)
-        * 
+        *
         * Ecommerce track support (addItem)
         * &ti= transaction The transaction ID. (e.g. 1234)
         * &in= The item name. (e.g. Fluffy Pink Bunnies)
