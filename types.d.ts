@@ -20,6 +20,7 @@ export interface MeasurementParamter {
 
 export interface Options {
   debug?: boolean;
+  userAgent?: string;
 }
 
 export class PageHit {
