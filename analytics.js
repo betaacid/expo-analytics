@@ -28,10 +28,10 @@ export default class Analytics {
     customDimensions = []
     customMetrics = []
 
-    constructor(propertyId, additionalParameters = {}, options = defaultOptions){
+    constructor(propertyId, clientId, additionalParameters = {}, options = defaultOptions){
         this.propertyId = propertyId;
         this.options = options;
-        this.clientId = Constants.installationId;
+        this.clientId = clientId;
         this.parameters = {
             an: Constants.manifest.name,
             aid: Constants.manifest.slug,
