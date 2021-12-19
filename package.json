@@ -1,5 +1,5 @@
 {
-  "name": "@watchinharrison/expo-analytics",
+  "name": "watchinharrison-expo-analytics",
   "version": "1.1.0",
   "description": "Google Analytics integration for use with React Native apps built on Expo.",
   "main": "index.js",
