@@ -1,5 +1,5 @@
 {
-  "name": "watchinharrison-expo-analytics",
+  "name": "expo-analytics",
   "version": "1.1.0",
   "description": "Google Analytics integration for use with React Native apps built on Expo.",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/watchinharrison/expo-analytics.git"
+    "url": "git+https://github.com/ryanvanderpol/expo-analytics.git"
   },
   "keywords": [
     "react",
@@ -18,14 +18,14 @@
     "google",
     "analytics"
   ],
-  "author": "David Harrison",
+  "author": "Ryan Vanderpol",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/watchinharrison/expo-analytics/issues"
+    "url": "https://github.com/ryanvanderpol/expo-analytics/issues"
   },
   "homepage": "https://github.com/ryanvanderpol/expo-analytics#readme",
   "dependencies": {
-    "expo-constants": "^13.0.0"
+    "expo-constants": "^12.1.2"
   },
   "devDependencies": {
     "expo": "^20.0.0",

@@ -24,6 +24,8 @@ It seems that Expo introduced some breaking changes in SDK 33, so if you are usi
 
 Your React Native app's screen resolution, app name, app ID, app version and multiple other parameters will be automatically resolved and sent with each hit or event.
 
+For SDK 44+ support you will need to provide the `clientId` in the form a UUID as `Constants.installationId` has been deprecated. You should generate and store this where appropriate for the platform and provide the value as the second argument.
+
 ##### Hits 
 
 Sending page hits or screen hits is done by constructing a new `PageHit` or `ScreenHit` instance and passing it to the `hit` function of an `Analytics` instance.
@@ -31,7 +33,7 @@ Sending page hits or screen hits is done by constructing a new `PageHit` or `Scr
 ```
 import { Analytics, PageHit } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 analytics.hit(new PageHit('Home'))
   .then(() => console.log("success"))
   .catch(e => console.log(e.message));
@@ -51,7 +53,7 @@ These parameters are passed to the `Event` constructor in that order.
 ```
 import { Analytics, Event } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
   .then(() => console.log("success"))
   .catch(e => console.log(e.message));
@@ -66,7 +68,7 @@ analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
 ```
 import { Analytics, Event } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 analytics.addCustomDimension(1, 'TrialAccount');
 analytics.addCustomDimension(2, 'Comedy');
 analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
@@ -87,7 +89,7 @@ analytics.removeCustomDimension(1);
 ```
 import { Analytics, Event } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 analytics.addCustomMetric(1, 15);
 analytics.removeCustomMetric(1);
 ```
@@ -100,7 +102,7 @@ You can also optionally include any additional [supported parameters](https://de
 import { Analytics } from 'expo-analytics';
 
 // pass in the user ID (uid), referrer (dr) and campaign name (cn) 
-const analytics = new Analytics('UA-XXXXXX-Y', { uid: '999', dr: 'github.com', cn: 'get_more_views' });
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID', { uid: '999', dr: 'github.com', cn: 'get_more_views' });
 ```
 
 ##### Ecommerce tracking 
@@ -118,7 +120,7 @@ These parameters are passed to the `Transaction` constructor in that order.
 ```
 import { Analytics, Transaction } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 
  analytics.hit(new Transaction('1235', 'Store', 38.43, 1.29, 5))
   .then(() => console.log("success"))
@@ -140,7 +142,7 @@ These parameters are passed to the `AddItem` constructor in that order.
 ```
 import { Analytics, AddItem } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y');
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID');
 
  analytics.hit(new AddItem('1235', 'T-SHIRT', 11.99, 1, 'DD44', 'Clothes'))
   .then(() => console.log("success"))
@@ -154,7 +156,7 @@ The Google Analytics API is a bit particular.  If you're not seeing Real Time hi
 ```
 import { Analytics, PageHit } from 'expo-analytics';
 
-const analytics = new Analytics('UA-XXXXXX-Y', null, { debug: true });
+const analytics = new Analytics('UA-XXXXXX-Y', 'UUID', null, { debug: true });
 analytics.hit(new PageHit('IsItWorking'))
   .then(() => console.log("success"))
   .catch(e => console.log(e.message));
