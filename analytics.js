@@ -1,7 +1,7 @@
 import { Platform, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
-import { ScreenHit, PageHit, Event, Serializable } from './hits';
+import { Serializable } from './hits';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,14 +28,23 @@ export default class Analytics {
     customDimensions = []
     customMetrics = []
 
-    constructor(propertyId, additionalParameters = {}, options = defaultOptions){
+    constructor(propertyId, clientId, additionalParameters = {}, options = defaultOptions){
         this.propertyId = propertyId;
         this.options = options;
-        this.clientId = Constants.installationId;
+        this.clientId = clientId;
+        let { an, aid, av } = additionalParameters
+
+        if (Constants.manifest !== null) {
+            an = an ? an : Constants.manifest.name
+            aid = aid ? aid : Constants.manifest.slug
+            av = av ? av : Constants.manifest.version
+        } else if (!an || !aid || !av) {
+            console.warn(`It looks like you're in the bare workflow and haven't supplied 'an', 'aid' or 'av' as additional parameters.`)
+        }
         this.parameters = {
-            an: Constants.manifest.name,
-            aid: Constants.manifest.slug,
-            av: Constants.manifest.version,
+            an,
+            aid,
+            av,
             sr: `${width}x${height}`,
             ...additionalParameters
         };

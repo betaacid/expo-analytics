@@ -1,5 +1,5 @@
 export class Analytics {
-  constructor(trackingId: string, parameters?: MeasurementParamter, options?: Options);
+  constructor(trackingId: string, clientId: string, parameters?: MeasurementParamter, options?: Options);
   hit(hitObject: PageHit | ScreenHit): Promise<void>;
   event(event: Event): Promise<void>;
   addCustomDimension(dimensionIndex: number, tag: string): void;
@@ -20,6 +20,7 @@ export interface MeasurementParamter {
 
 export interface Options {
   debug?: boolean;
+  userAgent?: string;
 }
 
 export class PageHit {
