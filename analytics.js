@@ -1,8 +1,6 @@
 import { Platform, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
-import { ScreenHit, PageHit, Event, Serializable } from './hits';
-
 const { width, height } = Dimensions.get('window');
 
 let defaultOptions = { debug: false };
@@ -27,18 +25,22 @@ const getWebViewUserAgent = async (options) => {
 export default class Analytics {
     customDimensions = []
     customMetrics = []
+    userId = null
 
-    constructor(propertyId, additionalParameters = {}, options = defaultOptions){
-        this.propertyId = propertyId;
+    constructor(measurementId, apiSecret, options = defaultOptions){
+
+        this.measurementId = measurementId;
+        this.apiSecret = apiSecret;
+
         this.options = options;
         this.clientId = Constants.installationId;
-        this.parameters = {
-            an: Constants.manifest.name,
-            aid: Constants.manifest.slug,
-            av: Constants.manifest.version,
-            sr: `${width}x${height}`,
-            ...additionalParameters
-        };
+
+        this.userProperties = {
+            app_name: {value: Constants.manifest.name},
+            app_id: {value: Constants.manifest.slug},
+            app_version: {value: Constants.manifest.version},
+            screen_resolution: {value: `${width}x${height}`}
+        }
 
         this.promiseGetWebViewUserAgentAsync = getWebViewUserAgent(options)
             .then(userAgent => {
@@ -50,96 +52,59 @@ export default class Analytics {
             });
     }
 
-    hit(hit){
-        // send only after the user agent is saved
-        return this.promiseGetWebViewUserAgentAsync
-            .then(() => this.send(hit));
-    }
+    track(eventName, params) {
 
-    event(event){
+        if(this.options.debug) {
+            console.log(`[expo-analytics] track ${eventName} with params ${params}`);
+        }
+        
+        let event = {
+            name: eventName, 
+            params: params
+        }
         // send only after the user agent is saved
         return this.promiseGetWebViewUserAgentAsync
             .then(() => this.send(event));
     }
 
-    addParameter(name, value){
-        this.parameters[name] = value;
+    setUserId(userId) {
+        this.userId = userId
     }
 
-    addCustomDimension(index, value){
-        this.customDimensions[index] = value;
-    }
+    send(event) {
 
-    removeCustomDimension(index){
-        delete this.customDimensions[index];
-    }
+        const url = `https://www.google-analytics.com/mp/collect?api_secret=${this.apiSecret}&measurement_id=${this.measurementId}`
 
-    addCustomMetric(index, value) {
-        this.customMetrics[index] = value;
-      }
+        let payload = {
+            user_properties: this.userProperties,
+            non_personalized_ads: true,
+            client_id: this.clientId, 
+            events: [ // We can send up to 25 events in one call
+                event
+            ]            
+        }
+        if(this.userId) {
+            payload['user_id'] = this.userId
+        }
 
-    removeCustomMetric(index) {
-        delete this.customMetrics[index];
-    }
-
-    send(hit) {
-        /* format: https://www.google-analytics.com/collect? +
-        * &tid= GA property ID (required)
-        * &v= GA protocol version (always 1) (required)
-        * &t= hit type (pageview / screenview)
-        * &dp= page name (if hit type is pageview)
-        * &cd= screen name (if hit type is screenview)
-        * &cid= anonymous client ID (optional if uid is given)
-        * &uid= user id (optional if cid is given)
-        * &ua= user agent override
-        * &an= app name (required for any of the other app parameters to work)
-        * &aid= app id
-        * &av= app version
-        * &sr= screen resolution
-        * &cd{n}= custom dimensions
-        * &cm{n}= custom metrics
-        * &z= cache buster (prevent browsers from caching GET requests -- should always be last)
-        *
-        * Ecommerce track support (transaction)
-        * &ti= transaction The transaction ID. (e.g. 1234)
-        * &ta= The store or affiliation from which this transaction occurred (e.g. Acme Clothing).
-        * &tr= Specifies the total revenue or grand total associated with the transaction (e.g. 11.99). This value may include shipping, tax costs, or other adjustments to total revenue that you want to include as part of your revenue calculations.
-        * &tt= Specifies the total shipping cost of the transaction. (e.g. 5)
-        *
-        * Ecommerce track support (addItem)
-        * &ti= transaction The transaction ID. (e.g. 1234)
-        * &in= The item name. (e.g. Fluffy Pink Bunnies)
-        * &ip= The individual, unit, price for each item. (e.g. 11.99)
-        * &iq= The number of units purchased in the transaction. If a non-integer value is passed into this field (e.g. 1.5), it will be rounded to the closest integer value.
-        * &ic= TSpecifies the SKU or item code. (e.g. SKU47)
-        * &iv= The category to which the item belongs (e.g. Party Toys)
-        */
-
-        const customDimensions = this.customDimensions.map((value, index) => `cd${index}=${value}`).join('&');
-        const customMetrics = this.customMetrics.map((value, index) => `cm${index}=${value}`).join('&');
-
-        const params = new Serializable(this.parameters).toQueryString();
-
-        const url = `https://www.google-analytics.com/collect?tid=${this.propertyId}&v=1&cid=${this.clientId}&${hit.toQueryString()}&${params}&${customDimensions}&${customMetrics}&z=${Math.round(Math.random() * 1e8)}`;
-
-        //Keep original options if on mobile
         let options = {
-            method: 'get',
+            method: 'post',
             headers: {
                 'User-Agent': this.userAgent,
-            }
-        };
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        };        
 
         if (Platform.OS === 'web') {
             //Request opaque resources to avoid preflight CORS error in Safari
-            options.mode = 'no-cors';
-        }
+            options.mode = 'no-cors'; // no-cors, *cors, same-origin
+        }        
 
-        if(this.options.debug){
-            console.log(`[expo-analytics] Sending GET request to ${url}`);
+        if(this.options.debug) {
+            console.log(`[expo-analytics] send ${options}`);
         }
 
         return fetch(url, options);
     }
-
 }

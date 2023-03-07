@@ -1,7 +1,7 @@
 {
   "name": "expo-analytics",
   "version": "1.0.18",
-  "description": "Google Analytics integration for use with React Native apps built on Expo.",
+  "description": "Google Analytics 4 Event Tracking integration for use with React Native apps built on Expo.",
   "main": "index.js",
   "types": "types.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryanvanderpol/expo-analytics.git"
+    "url": "git+https://github.com/jkramsay/expo-analytics.git"
   },
   "keywords": [
     "react",
@@ -20,10 +20,6 @@
   ],
   "author": "Ryan Vanderpol",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ryanvanderpol/expo-analytics/issues"
-  },
-  "homepage": "https://github.com/ryanvanderpol/expo-analytics#readme",
   "dependencies": {
     "expo-constants": "^12.1.2"
   },
