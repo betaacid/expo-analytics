@@ -1,3 +1,7 @@
+# No Longer Maintained
+The original maintainers of this package no longer use Expo and are not interested in maintaining this project any longer. Feel free to fork it and use as you wish.
+
+
 [![npm version](https://badge.fury.io/js/expo-analytics.png)](https://badge.fury.io/js/expo-analytics)
 
 Expo Analytics
