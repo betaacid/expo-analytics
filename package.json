@@ -1,6 +1,6 @@
 {
-  "name": "expo-analytics",
-  "version": "1.0.18",
+  "name": "@meecode/expo-analytics",
+  "version": "1.2.0",
   "description": "Google Analytics integration for use with React Native apps built on Expo.",
   "main": "index.js",
   "types": "types.d.ts",
@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/ryanvanderpol/expo-analytics#readme",
   "dependencies": {
-    "expo-constants": "^12.1.2"
+    "expo-constants": "^13.2.4",
+    "expo-application": "^4.2.2"
   },
   "devDependencies": {
-    "expo": "^20.0.0",
-    "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-20.0.0.tar.gz"
+    "expo": "^46.0.9",
+    "react": "18.2.0",
+    "react-native": "0.69.5"
   }
 }

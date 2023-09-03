@@ -1,11 +1,12 @@
-import { Platform, Dimensions } from 'react-native';
+import {Platform, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
+import * as Application from 'expo-application';
 
-import { ScreenHit, PageHit, Event, Serializable } from './hits';
+import {Serializable} from './hits';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-let defaultOptions = { debug: false };
+let defaultOptions = {debug: false};
 
 let webViewUserAgent = null;
 const getWebViewUserAgent = async (options) => {
@@ -16,11 +17,11 @@ const getWebViewUserAgent = async (options) => {
         }
         if (webViewUserAgent) return resolve(webViewUserAgent);
         Constants.getWebViewUserAgentAsync()
-          .then(userAgent => {
-              webViewUserAgent = userAgent;
-              resolve(userAgent);
-          })
-          .catch(() => resolve('unknown user agent'))
+            .then(userAgent => {
+                webViewUserAgent = userAgent;
+                resolve(userAgent);
+            })
+            .catch(() => resolve('unknown user agent'))
     });
 }
 
@@ -28,14 +29,23 @@ export default class Analytics {
     customDimensions = []
     customMetrics = []
 
-    constructor(propertyId, additionalParameters = {}, options = defaultOptions){
+    constructor(propertyId, clientId, additionalParameters = {}, options = defaultOptions) {
         this.propertyId = propertyId;
         this.options = options;
-        this.clientId = Constants.installationId;
+        this.clientId = clientId;
+        let {an, aid, av} = additionalParameters
+
+        if (Application.applicationName && Application.applicationId && Application.nativeApplicationVersion) {
+            an = an ? an : Application.applicationName
+            aid = aid ? aid : Application.applicationId
+            av = av ? av : Application.nativeApplicationVersion
+        } else if (!an || !aid || !av) {
+            console.warn(`It looks like you're in the bare workflow and haven't supplied 'an', 'aid' or 'av' as additional parameters.`)
+        }
         this.parameters = {
-            an: Constants.manifest.name,
-            aid: Constants.manifest.slug,
-            av: Constants.manifest.version,
+            an,
+            aid,
+            av,
             sr: `${width}x${height}`,
             ...additionalParameters
         };
@@ -43,40 +53,40 @@ export default class Analytics {
         this.promiseGetWebViewUserAgentAsync = getWebViewUserAgent(options)
             .then(userAgent => {
                 this.userAgent = userAgent;
-                if(this.options.debug){
+                if (this.options.debug) {
                     console.log(`[expo-analytics] UserAgent=${userAgent}`);
                     console.log(`[expo-analytics] Additional parameters=`, this.parameters);
                 }
             });
     }
 
-    hit(hit){
+    hit(hit) {
         // send only after the user agent is saved
         return this.promiseGetWebViewUserAgentAsync
             .then(() => this.send(hit));
     }
 
-    event(event){
+    event(event) {
         // send only after the user agent is saved
         return this.promiseGetWebViewUserAgentAsync
             .then(() => this.send(event));
     }
 
-    addParameter(name, value){
+    addParameter(name, value) {
         this.parameters[name] = value;
     }
 
-    addCustomDimension(index, value){
+    addCustomDimension(index, value) {
         this.customDimensions[index] = value;
     }
 
-    removeCustomDimension(index){
+    removeCustomDimension(index) {
         delete this.customDimensions[index];
     }
 
     addCustomMetric(index, value) {
         this.customMetrics[index] = value;
-      }
+    }
 
     removeCustomMetric(index) {
         delete this.customMetrics[index];
@@ -135,7 +145,7 @@ export default class Analytics {
             options.mode = 'no-cors';
         }
 
-        if(this.options.debug){
+        if (this.options.debug) {
             console.log(`[expo-analytics] Sending GET request to ${url}`);
         }
 
